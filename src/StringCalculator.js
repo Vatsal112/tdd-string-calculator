@@ -18,14 +18,26 @@ function StringCalculator() {
     if (input.startsWith("//")) {
       const parts = input.split("\\n");
       if (parts.length >= 2) {
-        delimiter = parts[0].substring(2); // Get the delimiter after //
+        // Handle multi-character delimiter within brackets
+        if (parts[0].includes("[") && parts[0].includes("]")) {
+          delimiter = parts[0].substring(
+            parts[0].indexOf("[") + 1,
+            parts[0].indexOf("]")
+          );
+          // Escape special characters if they exist in delimiter
+          delimiter = delimiter.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        } else {
+          // Handle single character delimiter
+          delimiter = parts[0].substring(2);
+        }
         numbersString = parts.slice(1).join(); // Get the rest of the string
       }
     }
+    const delimiterRegex = new RegExp(delimiter);
     // Replace newlines and custom delimiter with commas
     const processedInput = numbersString
       .replace(/\\n/g, ",")
-      .split(delimiter)
+      .split(delimiterRegex)
       .join(",");
 
     //to handle negative numbers
@@ -35,6 +47,7 @@ function StringCalculator() {
 
     if (negativeNumbers.length > 0) {
       setError(`negative numbers not allowed ${negativeNumbers.toString()}`);
+      return;
     }
     // Convert to numbers and sum
     const numbers = processedInput.split(",").map((num) => {

@@ -92,4 +92,14 @@ describe("Testcase for String Calculator", () => {
     fireEvent.click(button);
     expect(screen.getByText("Result: 30")).toBeInTheDocument();
   });
+
+  test("it should handle delimeters of any length", () => {
+    fireEvent.change(input, { target: { value: "//[***]\\n1***2***3" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 6")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "//[+++]\\n1+++2+++3" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 6")).toBeInTheDocument();
+  });
 });
