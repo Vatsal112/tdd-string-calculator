@@ -79,6 +79,7 @@ function StringCalculator() {
 
     const sum = numbers.reduce((acc, num) => acc + num, 0);
     setResult(sum);
+    setError(null);
   };
 
   return (
