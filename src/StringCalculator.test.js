@@ -20,4 +20,23 @@ describe("Testcase for String Calculator", () => {
 
     expect(screen.getByText("Result: 0")).toBeInTheDocument();
   });
+
+  test("it should return number itself when there is only single number in string", () => {
+    render(<StringCalculator />);
+
+    const input = screen.getByTestId("calculator-input");
+    const button = screen.getByRole("button", { name: /calculate/i });
+
+    fireEvent.change(input, { target: { value: "3" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 3")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "6" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 6")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "9" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 9")).toBeInTheDocument();
+  });
 });

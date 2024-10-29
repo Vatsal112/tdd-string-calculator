@@ -9,6 +9,14 @@ function StringCalculator() {
       setResult(0);
       return;
     }
+
+    //single input value
+    if (input.length === 1) {
+      if (!isNaN(parseInt(input))) {
+        setResult(parseInt(input));
+        return;
+      }
+    }
   };
 
   return (
