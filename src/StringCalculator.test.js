@@ -74,4 +74,12 @@ describe("Testcase for String Calculator", () => {
     fireEvent.click(button);
     expect(screen.getByText("Result: 6")).toBeInTheDocument();
   });
+
+  test("is should handle negative numbers", () => {
+    fireEvent.change(input, { target: { value: "-1,-2,-3" } });
+    fireEvent.click(button);
+    expect(
+      screen.getByText("Error: negative numbers not allowed -1,-2,-3")
+    ).toBeInTheDocument();
+  });
 });

@@ -3,6 +3,7 @@ import { useState } from "react";
 function StringCalculator() {
   const [input, setInput] = useState("");
   const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
 
   const handleCalculate = () => {
     if (input.trim() === "") {
@@ -27,6 +28,14 @@ function StringCalculator() {
       .split(delimiter)
       .join(",");
 
+    //to handle negative numbers
+    const negativeNumbers = processedInput
+      .split(",")
+      .filter((n) => parseInt(n) < 0);
+
+    if (negativeNumbers.length > 0) {
+      setError(`negative numbers not allowed ${negativeNumbers.toString()}`);
+    }
     // Convert to numbers and sum
     const numbers = processedInput.split(",").map((num) => {
       const parsed = parseInt(num.trim());
@@ -47,6 +56,7 @@ function StringCalculator() {
         onChange={(e) => setInput(e.target.value)}
       />
       <button onClick={handleCalculate}>Calculate</button>
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
       {result !== null && <p>Result: {result}</p>}
     </div>
   );
