@@ -1,0 +1,29 @@
+import { useState } from "react";
+
+function StringCalculator() {
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState(null);
+
+  const handleCalculate = () => {
+    if (input.trim() === "") {
+      setResult(0);
+      return;
+    }
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Enter comma-separated numbers"
+        value={input}
+        data-testid="calculator-input"
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <button onClick={handleCalculate}>Calculate</button>
+      {result !== null && <p>Result: {result}</p>}
+    </div>
+  );
+}
+
+export default StringCalculator;
