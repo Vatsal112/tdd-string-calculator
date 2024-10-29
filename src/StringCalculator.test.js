@@ -3,30 +3,27 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import StringCalculator from "./StringCalculator";
 
 describe("Testcase for String Calculator", () => {
-  test("it should renders input box and calculate button", () => {
-    render(<StringCalculator />);
-    const input = screen.getByTestId("calculator-input");
-    const button = screen.getByRole("button", { name: /Calculate/i });
+  let input, button;
 
+  beforeEach(() => {
+    // eslint-disable-next-line testing-library/no-render-in-setup
+    render(<StringCalculator />);
+    input = screen.getByTestId("calculator-input");
+    button = screen.getByRole("button", { name: /calculate/i });
+  });
+
+  test("it should renders input box and calculate button", () => {
     expect(input).toBeInTheDocument();
     expect(button).toBeInTheDocument();
   });
 
   test("it should return 0 when input is empty", () => {
-    render(<StringCalculator />);
-
-    const button = screen.getByRole("button", { name: /calculate/i });
     fireEvent.click(button);
 
     expect(screen.getByText("Result: 0")).toBeInTheDocument();
   });
 
   test("it should return number itself when there is only single number in string", () => {
-    render(<StringCalculator />);
-
-    const input = screen.getByTestId("calculator-input");
-    const button = screen.getByRole("button", { name: /calculate/i });
-
     fireEvent.change(input, { target: { value: "3" } });
     fireEvent.click(button);
     expect(screen.getByText("Result: 3")).toBeInTheDocument();
@@ -46,5 +43,11 @@ describe("Testcase for String Calculator", () => {
     fireEvent.change(input, { target: { value: "g" } });
     fireEvent.click(button);
     expect(screen.getByText("Result: 0")).toBeInTheDocument();
+  });
+
+  test("it should give sum of comma separated values", () => {
+    fireEvent.change(input, { target: { value: "3,5" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 8")).toBeInTheDocument();
   });
 });

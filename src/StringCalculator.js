@@ -19,6 +19,10 @@ function StringCalculator() {
       setResult(0);
       return;
     }
+
+    const numbers = input.split(",").map((num) => Number(num.trim()));
+    const sum = numbers.reduce((acc, num) => acc + num, 0);
+    setResult(sum);
   };
 
   return (
