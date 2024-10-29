@@ -10,18 +10,15 @@ function StringCalculator() {
       return;
     }
 
-    //single input value
-    if (input.length === 1) {
-      if (!isNaN(parseInt(input))) {
-        setResult(parseInt(input));
-        return;
-      }
-      setResult(0);
-      return;
-    }
+    //handle new line delimiters and invalid inputs.
+    const numbers = input
+      .replace(/\\n/g, ",") // Convert all \n to commas
+      .split(",") // Split into array
+      .map((num) => parseInt(num.trim()) || 0); // Convert to numbers, handle invalid as 0
+    let sum = 0;
 
-    const numbers = input.split(",").map((num) => Number(num.trim()));
-    const sum = numbers.reduce((acc, num) => acc + num, 0);
+    sum += numbers.reduce((acc, num) => acc + num, 0);
+
     setResult(sum);
   };
 

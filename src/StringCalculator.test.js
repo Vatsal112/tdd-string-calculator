@@ -50,4 +50,18 @@ describe("Testcase for String Calculator", () => {
     fireEvent.click(button);
     expect(screen.getByText("Result: 8")).toBeInTheDocument();
   });
+
+  test("it should handle new line delimiter in input and give sum of comma separated values", () => {
+    fireEvent.change(input, { target: { value: "1\\n2,3" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 6")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "1\\n2\\n3" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 6")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "1,2\\n3,4\\n5" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 15")).toBeInTheDocument();
+  });
 });
