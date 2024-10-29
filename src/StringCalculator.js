@@ -16,6 +16,8 @@ function StringCalculator() {
         setResult(parseInt(input));
         return;
       }
+      setResult(0);
+      return;
     }
   };
 

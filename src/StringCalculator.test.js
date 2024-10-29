@@ -38,5 +38,13 @@ describe("Testcase for String Calculator", () => {
     fireEvent.change(input, { target: { value: "9" } });
     fireEvent.click(button);
     expect(screen.getByText("Result: 9")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "a" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 0")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "g" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 0")).toBeInTheDocument();
   });
 });
