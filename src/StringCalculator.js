@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./StringCalculator.css";
 
 function StringCalculator() {
   const [input, setInput] = useState("");
@@ -67,6 +68,7 @@ function StringCalculator() {
 
     if (negativeNumbers.length > 0) {
       setError(`negative numbers not allowed ${negativeNumbers.toString()}`);
+      setResult(null);
       return;
     }
     // Convert to numbers and sum
@@ -80,17 +82,21 @@ function StringCalculator() {
   };
 
   return (
-    <div>
+    <div className="calculator-container">
+      <h1 className="calculator-header">String Calculator</h1>
       <input
         type="text"
         placeholder="Enter comma-separated numbers"
         value={input}
         data-testid="calculator-input"
         onChange={(e) => setInput(e.target.value)}
+        className="calculator-input"
       />
-      <button onClick={handleCalculate}>Calculate</button>
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
-      {result !== null && <p>Result: {result}</p>}
+      <button onClick={handleCalculate} className="calculator-button">
+        Calculate
+      </button>
+      {error && <p className="calculator-error">Error: {error}</p>}
+      {result !== null && <p className="calculator-result">Result: {result}</p>}
     </div>
   );
 }
