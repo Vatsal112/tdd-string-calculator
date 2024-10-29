@@ -39,7 +39,7 @@ function StringCalculator() {
     // Convert to numbers and sum
     const numbers = processedInput.split(",").map((num) => {
       const parsed = parseInt(num.trim());
-      return isNaN(parsed) ? 0 : parsed;
+      return isNaN(parsed) ? 0 : parsed <= 1000 ? parsed : 0;
     });
 
     const sum = numbers.reduce((acc, num) => acc + num, 0);

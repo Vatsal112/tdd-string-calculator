@@ -82,4 +82,14 @@ describe("Testcase for String Calculator", () => {
       screen.getByText("Error: negative numbers not allowed -1,-2,-3")
     ).toBeInTheDocument();
   });
+
+  test("it should ignore numbers greater than 1000", () => {
+    fireEvent.change(input, { target: { value: "1001,2,3" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 5")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "//;\\n1001;10;20" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 30")).toBeInTheDocument();
+  });
 });
