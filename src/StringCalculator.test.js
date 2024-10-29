@@ -102,4 +102,18 @@ describe("Testcase for String Calculator", () => {
     fireEvent.click(button);
     expect(screen.getByText("Result: 6")).toBeInTheDocument();
   });
+
+  test("it should handle multiple delimiters of any length", () => {
+    fireEvent.change(input, { target: { value: "//[;][,]\\n1;2,3" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 6")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "//[;;][,,]\\n1;;2,,3" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 6")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "//[;;][,,]\\n2;;3,,4" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 9")).toBeInTheDocument();
+  });
 });

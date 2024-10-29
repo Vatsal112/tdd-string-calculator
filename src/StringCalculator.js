@@ -12,28 +12,48 @@ function StringCalculator() {
     }
 
     let numbersString = input;
-    let delimiter = ",";
+    let delimiters = [","];
 
     // Check for custom delimiter
     if (input.startsWith("//")) {
       const parts = input.split("\\n");
       if (parts.length >= 2) {
-        // Handle multi-character delimiter within brackets
-        if (parts[0].includes("[") && parts[0].includes("]")) {
-          delimiter = parts[0].substring(
-            parts[0].indexOf("[") + 1,
-            parts[0].indexOf("]")
-          );
-          // Escape special characters if they exist in delimiter
-          delimiter = delimiter.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const delimiterPart = parts[0].substring(2);
+        numbersString = parts[1];
+
+        // Handle multiple delimiters in brackets
+        if (delimiterPart.startsWith("[")) {
+          delimiters = [];
+          let bracketContent = delimiterPart;
+
+          while (bracketContent.includes("[")) {
+            const startIndex = bracketContent.indexOf("[");
+            const endIndex = bracketContent.indexOf("]");
+            if (startIndex === -1 || endIndex === -1) break;
+
+            const delimiter = bracketContent.substring(
+              startIndex + 1,
+              endIndex
+            );
+            delimiters.push(delimiter);
+            bracketContent = bracketContent.substring(endIndex + 1);
+          }
         } else {
           // Handle single character delimiter
-          delimiter = parts[0].substring(2);
+          delimiters = [delimiterPart];
         }
-        numbersString = parts.slice(1).join(); // Get the rest of the string
       }
     }
-    const delimiterRegex = new RegExp(delimiter);
+
+    // Escape special characters in delimiters
+    delimiters = delimiters.map((d) =>
+      d.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+    );
+
+    // Create regex pattern for all delimiters
+    const delimiterPattern = delimiters.join("|");
+    const delimiterRegex = new RegExp(delimiterPattern);
+
     // Replace newlines and custom delimiter with commas
     const processedInput = numbersString
       .replace(/\\n/g, ",")
