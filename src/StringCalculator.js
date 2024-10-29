@@ -10,15 +10,30 @@ function StringCalculator() {
       return;
     }
 
-    //handle new line delimiters and invalid inputs.
-    const numbers = input
-      .replace(/\\n/g, ",") // Convert all \n to commas
-      .split(",") // Split into array
-      .map((num) => parseInt(num.trim()) || 0); // Convert to numbers, handle invalid as 0
-    let sum = 0;
+    let numbersString = input;
+    let delimiter = ",";
 
-    sum += numbers.reduce((acc, num) => acc + num, 0);
+    // Check for custom delimiter
+    if (input.startsWith("//")) {
+      const parts = input.split("\\n");
+      if (parts.length >= 2) {
+        delimiter = parts[0].substring(2); // Get the delimiter after //
+        numbersString = parts.slice(1).join(); // Get the rest of the string
+      }
+    }
+    // Replace newlines and custom delimiter with commas
+    const processedInput = numbersString
+      .replace(/\\n/g, ",")
+      .split(delimiter)
+      .join(",");
 
+    // Convert to numbers and sum
+    const numbers = processedInput.split(",").map((num) => {
+      const parsed = parseInt(num.trim());
+      return isNaN(parsed) ? 0 : parsed;
+    });
+
+    const sum = numbers.reduce((acc, num) => acc + num, 0);
     setResult(sum);
   };
 

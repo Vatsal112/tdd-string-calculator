@@ -64,4 +64,14 @@ describe("Testcase for String Calculator", () => {
     fireEvent.click(button);
     expect(screen.getByText("Result: 15")).toBeInTheDocument();
   });
+
+  test("it should handle custom delimeter", () => {
+    fireEvent.change(input, { target: { value: "//;\\n1;2" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 3")).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: "//|\\n1|2|3" } });
+    fireEvent.click(button);
+    expect(screen.getByText("Result: 6")).toBeInTheDocument();
+  });
 });
